@@ -7,18 +7,9 @@ import java.util.Iterator;
 
 import javax.imageio.IIOImage;
 import javax.imageio.ImageIO;
-import javax.imageio.ImageTypeSpecifier;
 import javax.imageio.ImageWriteParam;
 import javax.imageio.ImageWriter;
-import javax.imageio.metadata.IIOMetadata;
 import javax.imageio.stream.ImageOutputStream;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 
 import com.github.jaiimageio.jpeg2000.J2KImageWriteParam;
 
@@ -45,18 +36,19 @@ public class Main {
 
 	public static void lossless() {
 		try {
-			BufferedImage image = ImageIO.read(new File("sample/turkey-3048299_1920.jpg"));
+			BufferedImage image = ImageIO.read(new File("sample/logo.png"));
 			File f = new File("test-jpeg2000-lossless.jp2");
 			Iterator<ImageWriter> writers = ImageIO.getImageWritersBySuffix("jp2");
 			ImageWriter writer = writers.next();
 			J2KImageWriteParam writeParams = (J2KImageWriteParam) writer.getDefaultWriteParam();
 			writeParams.setLossless(true);
+			writeParams.setNumDecompositionLevels(3);
 			// writeParams.setFilter(J2KImageWriteParam.FILTER_53);
 			//			 writeParams.setEncodingRate(64.0f);
 			writeParams.setCompressionMode(ImageWriteParam.MODE_EXPLICIT);
 			writeParams.setCompressionType("JPEG2000");
-			writeParams.setCompressionQuality(0.02f);
-			writeParams.setTiling(1024, 1024, 0, 0);
+//			writeParams.setCompressionQuality(0.02f);
+//			writeParams.setTiling(1024, 1024, 0, 0);
 			writeParams.setProgressionType("res");
 
 //			IIOMetadata imageMeta = writer.getDefaultImageMetadata(new ImageTypeSpecifier(image), writeParams);
